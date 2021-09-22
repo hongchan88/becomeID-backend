@@ -1,0 +1,20 @@
+{
+  "name": "becomeId",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hongchan88/becomeID-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hongchan88/becomeID-backend/issues"
+  },
+  "homepage": "https://github.com/hongchan88/becomeID-backend#readme"
+}
