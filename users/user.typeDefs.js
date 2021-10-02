@@ -9,9 +9,7 @@ export default gql`
     email: String!
     password: String!
   }
-  type Mutation {
-    createUser(car_plates: String, email: String , password: String): User
-  }
+
 
   type FindResult {
     ok: Boolean
