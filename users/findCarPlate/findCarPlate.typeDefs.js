@@ -8,5 +8,5 @@ type FindResult {
   }
   type Query {
     users: [User]
-    findPlate(car_plates: String): FindResult
+    findCarPlate(car_plates: String): FindResult
   }`

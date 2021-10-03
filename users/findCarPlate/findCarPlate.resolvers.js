@@ -2,7 +2,7 @@ import client from "../../client";
 
 export default {
   Query: {
-    findPlate: async (_, { car_plates }) => {
+    findCarPlate: async (_, { car_plates }) => {
       const result = await client.user.findUnique({
         where: { car_plates },
       });
