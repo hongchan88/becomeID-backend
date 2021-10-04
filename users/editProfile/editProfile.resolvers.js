@@ -5,7 +5,12 @@ import { protectedResolver } from "../users.utilis";
 export default {
   Mutation: {
     editProfile: protectedResolver(
-      async (_, { email, password: newPassword }, { loggedInUser }) => {
+      async (
+        _,
+        { car_plates, email, password: newPassword },
+        { loggedInUser }
+      ) => {
+        console.log(loggedInUser);
         let hashedPassword = null;
         if (newPassword) {
           hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -13,7 +18,11 @@ export default {
 
         const updatedUser = await client.user.update({
           where: { id: loggedInUser.id },
-          data: { email, ...(hashedPassword && { password: hashedPassword }) },
+          data: {
+            car_plates,
+            email,
+            ...(hashedPassword && { password: hashedPassword }),
+          },
         });
 
         if (updatedUser.id) {
