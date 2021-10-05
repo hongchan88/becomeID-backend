@@ -16,6 +16,16 @@ export default {
           hashedPassword = await bcrypt.hash(newPassword, 10);
         }
 
+        const checkCarplate = await client.user.findUnique({
+          where: {
+            car_plates,
+          },
+        });
+
+        if (checkCarplate) {
+          return { ok: false, error: "Car plate is already exist" };
+        }
+
         const updatedUser = await client.user.update({
           where: { id: loggedInUser.id },
           data: {

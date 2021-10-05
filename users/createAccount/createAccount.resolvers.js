@@ -18,7 +18,10 @@ export default {
           },
         });
         if (existingUser) {
-          throw new Error("This Email/Car plates is already taken.");
+          return {
+            ok: false,
+            error: "This Email/Car plates is already taken.",
+          };
         }
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -30,6 +33,7 @@ export default {
             password: hashedPassword,
           },
         });
+
         if (createAccount) {
           return {
             ok: true,
