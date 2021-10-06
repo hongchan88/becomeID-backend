@@ -16,14 +16,21 @@ export default {
           hashedPassword = await bcrypt.hash(newPassword, 10);
         }
 
-        const checkCarplate = await client.user.findUnique({
+        const checkCarplate = await client.user.findFirst({
           where: {
-            car_plates,
+            OR: [
+              {
+                email,
+              },
+              {
+                car_plates,
+              },
+            ],
           },
         });
 
         if (checkCarplate) {
-          return { ok: false, error: "Car plate is already exist" };
+          return { ok: false, error: "Car plate / email is already exist" };
         }
 
         const updatedUser = await client.user.update({
@@ -34,7 +41,7 @@ export default {
             ...(hashedPassword && { password: hashedPassword }),
           },
         });
-
+        console.log(updatedUser);
         if (updatedUser.id) {
           return { ok: true };
         } else {
