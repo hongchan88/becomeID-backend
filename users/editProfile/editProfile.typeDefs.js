@@ -6,11 +6,12 @@ export default gql`
       car_plates: String
       email: String
       password: String
-    ): editProfieResult
+    ): editProfileResult
   }
 
-  type editProfieResult {
+  type editProfileResult {
     ok: Boolean
     error: String
+    value: String
   }
 `;

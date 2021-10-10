@@ -15,6 +15,9 @@ export default {
         if (newPassword) {
           hashedPassword = await bcrypt.hash(newPassword, 10);
         }
+        
+        const editValue = () => "sldkfj"
+        console.log(editValue)
 
         const checkCarplate = await client.user.findFirst({
           where: {
@@ -30,7 +33,7 @@ export default {
         });
 
         if (checkCarplate) {
-          return { ok: false, error: "Car plate / email is already exist" };
+          return { ok: false, error: "Car plate / email is already exist" , value: `${car_plates !== undefined ? "car_plates" : "email"}` };
         }
 
         const updatedUser = await client.user.update({
@@ -41,9 +44,9 @@ export default {
             ...(hashedPassword && { password: hashedPassword }),
           },
         });
-        console.log(updatedUser);
+
         if (updatedUser.id) {
-          return { ok: true };
+          return { ok: true , value: `${car_plates !== undefined ? "car_plates" : "email"}`  };
         } else {
           return { ok: false, error: "error to update" };
         }
