@@ -7,62 +7,74 @@ import { ApolloServer } from "apollo-server-express";
 
 import { SubscriptionServer } from "subscriptions-transport-ws";
 import { execute, subscribe } from "graphql";
-import { makeExecutableSchema } from "@graphql-tools/schema";
-
 
 import { getUser } from "./users/users.utilis";
 import schema from "./schema";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 
-
-
 async function startServer() {
-const apollo = new ApolloServer({
-schema,
-context: async ({ req }) => {
-if (req) {
-return {
-loggedInUser: await getUser(req.headers.token),
-};
-}
-},
-plugins: [ ApolloServerPluginLandingPageGraphQLPlayground(),
-{
-async serverWillStart() {
-return {
-async drainServer() {
-subscriptionServer.close();
-},
-};
-},
-}
-],
-});
+  const apollo = new ApolloServer({
+    schema,
+    context: async (context) => {
+      if (context.req) {
+        return {
+          loggedInUser: await getUser(context.req.headers.token),
+        };
+      } else {
+        return {
+          loggedInUser: context.loggedInUser,
+        };
+      }
+    },
 
-await apollo.start();
-const app = express();
-app.use(logger("tiny"));
+    plugins: [
+      ApolloServerPluginLandingPageGraphQLPlayground(),
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              subscriptionServer.close();
+            },
+          };
+        },
+      },
+    ],
+  });
 
-apollo.applyMiddleware({ app });
+  await apollo.start();
+  const app = express();
+  app.use(logger("tiny"));
 
-const httpServer = http.createServer(app);
+  apollo.applyMiddleware({ app });
 
-const subscriptionServer = SubscriptionServer.create(
-{
-schema,
-execute,
-subscribe,
-},
-{
-server: httpServer,
-path: apollo.graphqlPath,
-}
-);
+  const httpServer = http.createServer(app);
 
-const PORT = process.env.PORT;
-await new Promise((resolve) => httpServer.listen(PORT, resolve));
-console.log(
-`🚀 Server ready at http://localhost:${PORT}${apollo.graphqlPath}`
-);
+  const subscriptionServer = SubscriptionServer.create(
+    {
+      schema,
+      execute,
+      subscribe,
+      async onConnect({ token }) {
+        if (!token) {
+          throw new Error("You can't listen");
+        }
+        const loggedInUser = await getUser(token);
+        return {
+          // return onconnect will go to context
+          loggedInUser,
+        };
+      },
+    },
+    {
+      server: httpServer,
+      path: apollo.graphqlPath,
+    }
+  );
+
+  const PORT = process.env.PORT;
+  await new Promise((resolve) => httpServer.listen(PORT, resolve));
+  console.log(
+    `🚀 Server ready at http://localhost:${PORT}${apollo.graphqlPath}`
+  );
 }
 startServer();

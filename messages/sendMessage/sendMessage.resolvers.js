@@ -1,4 +1,3 @@
-
 import client from "../../client";
 import { NEW_MESSAGE } from "../../constants";
 import pubsub from "../../pubsub";
@@ -24,25 +23,22 @@ export default {
               error: "This user does not exist.",
             };
           }
-      
-          if(!roomId){
 
-
-            room = await client.room.create({
-              data: {
-                users: {
-                  connect: [
-                    {
-                      id: userId,
-                    },
-                    {
-                      id: loggedInUser.id,
-                    },
-                  ],
-                },
+          room = await client.room.create({
+            data: {
+              users: {
+                connect: [
+                  {
+                    id: userId,
+                  },
+                  {
+                    id: loggedInUser.id,
+                  },
+                ],
               },
-            });
-          } else  {
+            },
+          });
+        } else if (roomId) {
           room = await client.room.findUnique({
             where: {
               id: roomId,
@@ -51,7 +47,6 @@ export default {
               id: true,
             },
           });
-        }
           if (!room) {
             return {
               ok: false,
@@ -74,7 +69,7 @@ export default {
             },
           },
         });
-        pubsub.publish(NEW_MESSAGE, {message})
+        pubsub.publish(NEW_MESSAGE, { roomUpdates: { ...message } });
         return {
           ok: true,
         };
