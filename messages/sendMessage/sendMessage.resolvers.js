@@ -7,6 +7,7 @@ export default {
   Mutation: {
     sendMessage: protectedResolver(
       async (_, { payload, roomId, userId }, { loggedInUser }) => {
+        console.log(roomId);
         let room = null;
         if (userId) {
           const user = await client.user.findUnique({
@@ -23,21 +24,6 @@ export default {
               error: "This user does not exist.",
             };
           }
-
-          room = await client.room.create({
-            data: {
-              users: {
-                connect: [
-                  {
-                    id: userId,
-                  },
-                  {
-                    id: loggedInUser.id,
-                  },
-                ],
-              },
-            },
-          });
         } else if (roomId) {
           room = await client.room.findUnique({
             where: {
@@ -47,7 +33,7 @@ export default {
               id: true,
             },
           });
-          if (!room) {
+          if (!roomId) {
             return {
               ok: false,
               error: "Room not found.",
@@ -72,6 +58,7 @@ export default {
         pubsub.publish(NEW_MESSAGE, { roomUpdates: { ...message } });
         return {
           ok: true,
+          id: message.id,
         };
       }
     ),

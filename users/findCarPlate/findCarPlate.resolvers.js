@@ -9,8 +9,8 @@ export default {
       if (!result) {
         return { ok: false, error: "Car plates not exist in the system" };
       }
-      const email = result.email;
-      return { ok: true, email, car_plates };
+      const { email, id } = result;
+      return { ok: true, email, car_plates, id };
     },
   },
 };
