@@ -11,5 +11,8 @@ To view becomeID-front end with Reacjjs**[click here](https://github.com/hongcha
 ✔️ install prisma + graphql + babel\
 ✔️ install pgAdmin + .env database url configure\
 ✔️ Prisma migrate\
+✔️ Live chat Feature
 
 - [x] User model\
+- [x] Message model\
+- [x] Room model \

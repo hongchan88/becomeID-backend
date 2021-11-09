@@ -15,5 +15,6 @@ export default gql`
     messages: [Message]
     createdAt: String!
     updatedAt: String!
+    totalPayloads: Int
   }
 `;

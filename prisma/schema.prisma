@@ -8,6 +8,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+
 }
 
 model User {
@@ -34,9 +35,9 @@ model Room {
 model Message {
   id      Int    @id @default(autoincrement())
   payload String
-  user    User   @relation(fields: [userId], references: [id])
+  user    User   @relation(fields: [userId], references: [id] , onDelete: Cascade)
   userId  Int
-  room    Room   @relation(fields: [roomId], references: [id])
+  room    Room   @relation(fields: [roomId], references: [id],onDelete: Cascade)
   roomId  Int
 
   createdAt DateTime @default(now())

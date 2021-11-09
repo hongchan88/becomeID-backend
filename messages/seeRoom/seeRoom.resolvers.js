@@ -4,6 +4,7 @@ import { protectedResolver } from "../../users/users.utilis";
 export default {
   Query: {
     seeRoom: protectedResolver(async (_, { id }, { loggedInUser }) => {
+      console.log(id);
       let findRoom = null;
       findRoom = await client.room.findFirst({
         where: {
@@ -26,6 +27,7 @@ export default {
           ],
         },
       });
+
       if (findRoom === null) {
         findRoom = await client.room.create({
           data: {
