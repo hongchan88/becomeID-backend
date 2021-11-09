@@ -26,9 +26,10 @@ async function startServer() {
         };
       }
     },
+    playgroud: true,
 
     plugins: [
-      ApolloServerPluginLandingPageGraphQLPlayground(),
+      // ApolloServerPluginLandingPageGraphQLPlayground(),
       {
         async serverWillStart() {
           return {
