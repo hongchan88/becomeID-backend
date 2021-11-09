@@ -27,6 +27,7 @@ async function startServer() {
       }
     },
     playgroud: true,
+    introspection: true,
 
     plugins: [
       // ApolloServerPluginLandingPageGraphQLPlayground(),
