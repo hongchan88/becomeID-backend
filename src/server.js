@@ -26,11 +26,12 @@ async function startServer() {
         };
       }
     },
+    //playground , introspection only for portfolio purpose. remove when product live
     playgroud: true,
     introspection: true,
 
     plugins: [
-      // ApolloServerPluginLandingPageGraphQLPlayground(),
+      ApolloServerPluginLandingPageGraphQLPlayground(),
       {
         async serverWillStart() {
           return {
