@@ -34,7 +34,8 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "regenerator-runtime": "^0.13.9",
-    "subscriptions-transport-ws": "^0.9.19"
+    "subscriptions-transport-ws": "^0.9.19",
+    "fs-capacitor": "^6.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
