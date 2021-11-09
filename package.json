@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node server",
-    "migrate": "npx prisma migrate dev"
+    "dev": "nodemon --exec babel-node src/server",
+    "migrate": "npx prisma migrate dev",
+    "build": "babel src --out-dir build",
+    "start": "node build/server"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,7 @@
   },
   "homepage": "https://github.com/hongchan88/becomeID-backend#readme",
   "dependencies": {
+    "@babel/cli": "^7.16.0",
     "@graphql-tools/load-files": "^6.5.0",
     "@graphql-tools/merge": "^8.1.2",
     "@graphql-tools/schema": "^8.2.0",
@@ -30,12 +33,14 @@
     "graphql-subscriptions": "^1.2.1",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
+    "regenerator-runtime": "^0.13.9",
     "subscriptions-transport-ws": "^0.9.19"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
+    "@babel/core": "^7.16.0",
     "@babel/node": "^7.15.4",
-    "@babel/preset-env": "^7.15.6",
+    "@babel/plugin-transform-runtime": "^7.16.0",
+    "@babel/preset-env": "^7.12.11",
     "nodemon": "^2.0.12",
     "prettier-plugin-prisma": "^3.1.1",
     "prisma": "^3.1.1"
